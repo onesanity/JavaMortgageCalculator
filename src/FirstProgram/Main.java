@@ -7,49 +7,32 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-
         //create scanner object to obtain the input from users
 
-        int principal = 0; //INT allows us to store values up to 2 billion
-        float annualInterest = 0;
-        byte years = 0;
-
-        //Principal ($1k - $1M)
-        Scanner scanner = new Scanner(System.in);
-
-        while (true) {
-            System.out.print("Principal: ");
-            principal = scanner.nextInt();
-            if (principal >= 1000 && principal <= 1_000_000)
-                break;
-            System.out.println("Enter a value between 1,000 and 1,000,000");
-        }
-
-        while (true) {
-            System.out.print("Annual Interest Rate: ");
-            float annualInterest = scanner.nextFloat();
-            if (annualInterest >= 1 && annualInterest <= 30)
-                break;
-            System.out.print("Enter a value between 1 and 30");
-        }
-
-        while (true) {
-            System.out.print("Period (Years): ");
-            byte years = scanner.nextByte();
-            //get this as a byte
-            //because the max number we want to store is 30
-            //based on the number of years, we calculate the number of payments
-            if (years >= 1 && years <= 30)
-                break;
-            System.out.print("Enter a value between 1 and 30");
-        }
+        int principal = (int)readNumber("Principal:", 1000, 1_000_000);
+        float annualInterest = (float)readNumber("Annual Interest Rate: ", 1, 30);
+        byte years = (byte) readNumber("Period (Years): ", 1, 30);
 
         //call calculateMortgage in this main method
 
-       double mortgage = calculateMortgage(principal, annualInterest, years);
+        double mortgage = calculateMortgage(principal, annualInterest, years);
 
         String mortgageFormatted = NumberFormat.getCurrencyInstance().format(mortgage);
         System.out.println("Mortgage: " + mortgageFormatted);
+
+    }
+
+    public static double readNumber(String prompt, double min, double max){
+        Scanner scanner = new Scanner(System.in);
+        double value;
+        while (true) {
+            System.out.print(prompt);
+            value = scanner.nextFloat();
+            if (value >= min && value <= max)
+                break;
+            System.out.print("Enter a value between " + min + "and" + max);
+        }
+        return value;
 
     }
 
