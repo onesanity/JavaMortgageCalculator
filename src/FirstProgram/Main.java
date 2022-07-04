@@ -7,22 +7,26 @@ import java.util.Scanner;
 public class Main {
     final static byte MONTHS_IN_YEAR = 12;
     final static byte PERCENT = 100;
-
     public static void main(String[] args) {
         //create scanner object to obtain the input from users
-
         int principal = (int)readNumber("Principal:", 1000, 1_000_000);
         float annualInterest = (float)readNumber("Annual Interest Rate: ", 1, 30);
         byte years = (byte) readNumber("Period (Years): ", 1, 30);
-
         //call calculateMortgage in this main method
+        printMortgage(principal, annualInterest, years);
+        printPaymentSchedule(principal, annualInterest, years);
+    }
+
+    public static void printMortgage(int principal, float annualInterest, byte years) {
         double mortgage = calculateMortgage(principal, annualInterest, years);
         String mortgageFormatted = NumberFormat.getCurrencyInstance().format(mortgage);
         System.out.println();
         System.out.println("MORTGAGE");
         System.out.println("--------");
         System.out.println("Mortgage: " + mortgageFormatted);
+    }
 
+    public static void printPaymentSchedule(int principal, float annualInterest, byte years) {
         System.out.println();
         System.out.println("PAYMENT SCHEDULE");
         System.out.println("----------------");
@@ -30,7 +34,6 @@ public class Main {
             double balance = calculateBalance(principal, annualInterest, years, month);
             System.out.println(NumberFormat.getCurrencyInstance().format(balance));
         }
-
     }
 
     public static double readNumber(String prompt, double min, double max){
